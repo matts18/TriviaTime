@@ -7,8 +7,6 @@ namespace TriviaTime.Models
     {
         Multiple,
         Boolean,
-
-
        
     }
 
