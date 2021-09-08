@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using TriviaTime.Services;
 
 namespace TriviaTime
 {
@@ -31,6 +32,11 @@ namespace TriviaTime
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Trivia Time", Version = "v1" });
+            });
+            services.AddSingleton<ITriviaService, TriviaApiService>();
+            services.AddHttpClient("trivia", c =>
+            {
+                c.BaseAddress = new Uri("https://opentdb.com/");
             });
         }
 
