@@ -14,12 +14,12 @@ namespace TriviaTimeTests
     public class TriviaControllerTests
     {
         [Fact]
-        public async Task GetMultipleQuestions_Returns_The_Correct_Amount_Of_Questions()
+        public async Task GetQuestions_Returns_The_Correct_Amount_Of_Questions()
         {
             // Arrange
             int count = 5;
             var mockQuestionService = new Mock<ITriviaService>();
-            mockQuestionService.Setup(service => service.GetMultipleQuestions(count))
+            mockQuestionService.Setup(service => service.GetQuestions(count))
                 .ReturnsAsync(GetTestQuestions(count));
             var controller = new TriviaController(mockQuestionService.Object);
 
@@ -40,7 +40,7 @@ namespace TriviaTimeTests
             int count = 11;
             int lowCount = 0;
             var mockQuestionService = new Mock<ITriviaService>();
-            mockQuestionService.Setup(service => service.GetMultipleQuestions(count))
+            mockQuestionService.Setup(service => service.GetQuestions(count))
                 .ReturnsAsync(GetTestQuestions(count));
             var controller = new TriviaController(mockQuestionService.Object);
 
