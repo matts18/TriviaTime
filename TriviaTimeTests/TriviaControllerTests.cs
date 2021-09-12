@@ -24,7 +24,7 @@ namespace TriviaTimeTests
             var controller = new TriviaController(mockQuestionService.Object);
 
             // Act
-            var actionResult = await controller.Get(count);
+            var actionResult = await controller.Get(new QuestionQueryParameters() { Amount = count });
 
             // Assert
             var result = actionResult as OkObjectResult;
@@ -37,7 +37,7 @@ namespace TriviaTimeTests
         public async Task GetMultipleQuestions_Returns_400_For_Invalid_Question_Amount()
         {
             // Arrange
-            int count = 11;
+            int count = 20;
             int lowCount = 0;
             var mockQuestionService = new Mock<ITriviaService>();
             mockQuestionService.Setup(service => service.GetQuestions(count))
@@ -45,9 +45,10 @@ namespace TriviaTimeTests
             var controller = new TriviaController(mockQuestionService.Object);
 
             // Act
-            var actionResult = await controller.Get(count);
-            var actionResultLow = await controller.Get(lowCount);
-
+            controller.ModelState.AddModelError("Amount", "The field Amount must be between 1 and 10.");
+            var actionResult = await controller.Get(new QuestionQueryParameters() { Amount = count });
+            var actionResultLow = await controller.Get(new QuestionQueryParameters() { Amount = lowCount });
+            
             // Assert
             Assert.IsType<BadRequestObjectResult>(actionResult);
             Assert.IsType<BadRequestObjectResult>(actionResultLow);
