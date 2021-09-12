@@ -13,11 +13,12 @@ namespace TriviaTimeTests
 {
     public class TriviaControllerTests
     {
+
         [Fact]
         public async Task GetQuestions_Returns_The_Correct_Amount_Of_Questions()
         {
             // Arrange
-            int count = 5;
+            int count = 1;
             var mockQuestionService = new Mock<ITriviaService>();
             mockQuestionService.Setup(service => service.GetQuestions(count))
                 .ReturnsAsync(GetTestQuestions(count));
@@ -33,28 +34,28 @@ namespace TriviaTimeTests
                     
         }
 
-        [Fact]
-        public async Task GetMultipleQuestions_Returns_400_For_Invalid_Question_Amount()
-        {
-            // Arrange
-            int count = 20;
-            int lowCount = 0;
-            var mockQuestionService = new Mock<ITriviaService>();
-            mockQuestionService.Setup(service => service.GetQuestions(count))
-                .ReturnsAsync(GetTestQuestions(count));
-            var controller = new TriviaController(mockQuestionService.Object);
 
-            // Act
-            controller.ModelState.AddModelError("Amount", "The field Amount must be between 1 and 10.");
-            var actionResult = await controller.Get(new QuestionQueryParameters() { Amount = count });
-            var actionResultLow = await controller.Get(new QuestionQueryParameters() { Amount = lowCount });
+        // TODO: Move this question to integration tests for proper model state validation
+        //[Theory]
+        //[InlineData(11)]
+        //[InlineData(0)]
+        //public async Task GetMultipleQuestions_Returns_400_For_Invalid_Question_Amount(int count)
+        //{
+        //    // Arrange
+        //    var mockQuestionService = new Mock<ITriviaService>();
+        //    mockQuestionService.Setup(service => service.GetQuestions(count))
+        //        .ReturnsAsync(GetTestQuestions(count));
+        //    var controller = new TriviaController(mockQuestionService.Object);
+
+        //    // Act
+        //    controller.ModelState.AddModelError("Amount", "The field Amount must be between 1 and 10.");
+        //    var actionResult = await controller.Get(new QuestionQueryParameters() { Amount = count });
             
-            // Assert
-            Assert.IsType<BadRequestObjectResult>(actionResult);
-            Assert.IsType<BadRequestObjectResult>(actionResultLow);
+        //    // Assert
+        //    Assert.IsType<BadRequestObjectResult>(actionResult);
             
 
-        }
+        //}
 
         private TriviaQuestionResultsModel GetTestQuestions(int count)
         {
