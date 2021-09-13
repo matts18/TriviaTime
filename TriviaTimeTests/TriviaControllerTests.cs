@@ -19,13 +19,14 @@ namespace TriviaTimeTests
         {
             // Arrange
             int count = 1;
+            var queryParameters = new QuestionQueryParameters() { Amount = count };
             var mockQuestionService = new Mock<ITriviaService>();
-            mockQuestionService.Setup(service => service.GetQuestions(count))
+            mockQuestionService.Setup(service => service.GetQuestions(queryParameters))
                 .ReturnsAsync(GetTestQuestions(count));
             var controller = new TriviaController(mockQuestionService.Object);
 
             // Act
-            var actionResult = await controller.Get(new QuestionQueryParameters() { Amount = count });
+            var actionResult = await controller.Get(queryParameters);
 
             // Assert
             var result = actionResult as OkObjectResult;
