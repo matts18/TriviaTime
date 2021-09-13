@@ -8,10 +8,13 @@ namespace TriviaTime.Models
     public class TriviaQuestionModel
     {
         public string Category { get; set; }
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public QuestionType Type { get; set; }
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public QuestionDifficulty Difficulty { get; set; }
+
         public string Question { get; set; }
 
         [JsonPropertyName("correct_answer")]
